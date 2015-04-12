@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>在windows+apache环境下安装XCache - Robin</title>
+	<meta name="keywords" content="apache,php,windows,xcache,优化" />
+	<meta name="description" content="XCache是一款提速php执行效率的工具，只要是通过对php编译空间开启一定的缓存来实现提速。
+
+windows+apache环境下能实现此功能的工具不多，XCache是其中比较好的一款，推荐使用。
+
+安装方法:
+1. 下载XCache-1.3" />
+	<link rel="shortcut icon" href="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/favicon.ico" type="image/x-icon" />
+	<link rel="pingback" href="http://robin.sh/xmlrpc.php" />
+	<link rel="alternate" type="application/rss+xml" title="Robin" href="http://robin.sh/feed" />
+	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><script type="text/javascript">document.createElement("content");</script><![endif]-->
+
+	<link href="http://cdn-robin-sh.qiniudn.com/tools/lightbox2/lightbox/css/lightbox.css" rel="stylesheet" /> <!-- Robin ++ -->
+
+	<link rel="alternate" type="application/rss+xml" title="Robin &raquo; 在windows+apache环境下安装XCache评论Feed" href="http://robin.sh/html/753_windows-apache-xcache.html/feed" />
+	<link rel='stylesheet' id='nextgen_gallery_related_images-css'  href='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/nextgen_gallery_display/static/nextgen_gallery_related_images.css?ver=3.6.1' type='text/css' media='all' />
+	<link rel='stylesheet' id='crayon-css'  href='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/crayon-syntax-highlighter/css/min/crayon.min.css?ver=2.4.1' type='text/css' media='all' />
+	<link rel='stylesheet' id='crayon-theme-cg-cookie-css'  href='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/crayon-syntax-highlighter/themes/cg-cookie/cg-cookie.css?ver=2.4.1' type='text/css' media='all' />
+	<link rel='stylesheet' id='crayon-font-monaco-css'  href='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/crayon-syntax-highlighter/fonts/monaco.css?ver=2.4.1' type='text/css' media='all' />
+	<link rel='stylesheet' id='toc-screen-css'  href='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/table-of-contents-plus/screen.css?ver=1303.1' type='text/css' media='all' />
+	<link rel='stylesheet' id='style-css'  href='http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/style.css?ver=1.83' type='text/css' media='screen' />
+	<script type='text/javascript'>
+		/* <![CDATA[ */
+		var photocrati_ajax = {"url":"http:\/\/robin.sh\/photocrati_ajax","wp_site_url":"http:\/\/robin.sh","wp_site_static_url":"http:\/\/robin.sh"};
+		/* ]]> */
+	</script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/ajax/static/ajax.js?ver=3.6.1'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/ajax/static/persist.js?ver=3.6.1'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/ajax/static/store.js?ver=3.6.1'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/ajax/static/ngg_store.js?ver=3.6.1'></script>
+	<script type='text/javascript'>
+		/* <![CDATA[ */
+		var CrayonSyntaxSettings = {"version":"2.4.1","is_admin":"0","ajaxurl":"http:\/\/robin.sh\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+		var CrayonSyntaxStrings = {"copy":"\u4f7f\u7528 %s \u590d\u5236\uff0c\u4f7f\u7528 %s \u7c98\u8d34\u3002","minimize":"Click To Expand Code"};
+		/* ]]> */
+	</script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/crayon-syntax-highlighter/js/min/crayon.min.js?ver=2.4.1'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/nextgen-gallery/products/photocrati_nextgen/modules/lightbox/static/lightbox_context.js?ver=3.6.1'></script>
+	<script type='text/javascript' src='http://libs.baidu.com/jquery/1.8.2/jquery.min.js?ver=1.82'></script>
+	<script type='text/javascript'>
+		/* <![CDATA[ */
+		var invoker = {"consuming":"500","postid":"753","ajaxurl":"http:\/\/robin.sh\/"};
+		/* ]]> */
+	</script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/js/base.js?ver=1.82'></script>
+	<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/js/single.js?ver=1.82'></script>
+	<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://robin.sh/xmlrpc.php?rsd" />
+	<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://cdn-robin-sh.qiniudn.com/wp-includes/wlwmanifest.xml" />
+	<link rel='prev' title='使用python进行图像处理-调整图片大小' href='http://robin.sh/html/750_python-image-pil.html' />
+	<link rel='next' title='在windows+apache环境下安装ioncube' href='http://robin.sh/html/756_windows-apache-ioncube.html' />
+	<meta name="generator" content="WordPress 3.6.1" />
+	<link rel='canonical' href='http://robin.sh/html/753_windows-apache-xcache.html' />
+	<link rel='shortlink' href='http://robin.sh/?p=753' />
+	<!-- <meta name="NextGEN" version="2.0.63" /> -->
+	<style type="text/css">div#toc_container {width: 200px;}</style><link rel="stylesheet" href="http://cdn-robin-sh.qiniudn.com/wp-content/plugins/wp-page-numbers/classic/wp-page-numbers.css" type="text/css" media="screen" /><!-- Start Of Script Generated By WP-PostViews Plus -->
+	<script type="text/javascript">
+		jQuery.ajax({type:'GET', url:'http://robin.sh/wp-content/plugins/wp-postviews-plus/postviews_plus.php?postviews_id=753&count_id=311157a0978430e17fb5bf2ee7171d89', cache:false, dataType:'script'});
+	</script>
+	<!-- End Of Script Generated WP-PostViews Plus -->
+	<script type='text/javascript'>/* <![CDATA[ */ var _wpaudio = {url: 'http://cdn-robin-sh.qiniudn.com/wp-content/plugins/wpaudio-mp3-player', enc: {}, convert_mp3_links: false, style: {text_font:'Sans-serif',text_size:'18px',text_weight:'normal',text_letter_spacing:'normal',text_color:'inherit',link_color:'#24f',link_hover_color:'#02f',bar_base_bg:'#eee',bar_load_bg:'#ccc',bar_position_bg:'#46f',sub_color:'#aaa'}}; /* ]]> */</script></head>
+<body class="single single-post postid-753 single-format-standard sidebar-right">
+<header id="header">
+	<div class="center clearfix">
+		<a class="logo" href="http://robin.sh"><img src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/logo.jpg" alt="Robin" /></a>
+		<a class="homeicon" href="http://robin.sh" ></a>
+		<nav id="topnav"><div class="menu-%e5%af%bc%e8%88%aa%e8%8f%9c%e5%8d%95-container"><ul id="menu-%e5%af%bc%e8%88%aa%e8%8f%9c%e5%8d%95" class="menu"><li id="menu-item-670" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-670"><a href="http://robin.sh/">首页</a></li>
+			<li id="menu-item-893" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-893"><a href="http://robin.sh/html/category/robin-say">斌斌有理</a>
+				<ul class="sub-menu">
+					<li id="menu-item-2130" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-2130"><a href="http://robin.sh/html/category/robin-say/%e8%af%bb%e4%b9%a6%e4%b9%8b%e6%84%9f">读书之感</a></li>
+					<li id="menu-item-740" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-740"><a href="http://robin.sh/html/category/nothing">鸡毛蒜皮</a></li>
+					<li id="menu-item-742" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-742"><a href="http://robin.sh/html/category/nothing/film">观影之感</a></li>
+					<li id="menu-item-741" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-741"><a href="http://robin.sh/html/category/nothing/funny">坑爹搞笑</a></li>
+				</ul>
+			</li>
+			<li id="menu-item-676" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-676"><a href="http://robin.sh/html/category/program-life">程序人生</a>
+				<ul class="sub-menu">
+					<li id="menu-item-680" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-680"><a href="http://robin.sh/html/category/program-life/thinking-in-java">java</a></li>
+					<li id="menu-item-678" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-678"><a href="http://robin.sh/html/category/program-life/python">python</a></li>
+					<li id="menu-item-775" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-775"><a href="http://robin.sh/html/category/program-life/ruby">ruby</a></li>
+					<li id="menu-item-677" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-677"><a href="http://robin.sh/html/category/program-life/sas">sas</a></li>
+					<li id="menu-item-679" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-679"><a href="http://robin.sh/html/category/program-life/vba-program-life">vba</a></li>
+				</ul>
+			</li>
+			<li id="menu-item-675" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-675"><a href="http://robin.sh/html/category/web-build">网站建设</a>
+				<ul class="sub-menu">
+					<li id="menu-item-718" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-718"><a href="http://robin.sh/html/category/web-build/speed-optimize">速度优化</a></li>
+					<li id="menu-item-716" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-716"><a href="http://robin.sh/html/category/web-build/theme-modify">主题修改</a></li>
+					<li id="menu-item-719" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-719"><a href="http://robin.sh/html/category/web-build/plugin-teach">插件教程</a></li>
+					<li id="menu-item-717" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-717"><a href="http://robin.sh/html/category/web-build/site-problems">疑难杂症</a></li>
+				</ul>
+			</li>
+			<li id="menu-item-2169" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2169"><a href="http://robin.sh/link">友情链接</a></li>
+			<li id="menu-item-674" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-674"><a href="http://robin.sh/about">关于</a>
+				<ul class="sub-menu">
+					<li id="menu-item-2143" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2143"><a href="http://robin.sh/time-flies">时光荏苒</a></li>
+					<li id="menu-item-1504" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1504"><a href="http://robin.sh/site-blog">站点日志</a></li>
+					<li id="menu-item-671" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-671"><a href="http://robin.sh/favorites">各类工具</a></li>
+					<li id="menu-item-672" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-672"><a href="http://robin.sh/favorites/software">常用软件</a></li>
+					<li id="menu-item-2146" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2146"><a href="http://robin.sh/guest-book">留言簿</a></li>
+				</ul>
+			</li>
+		</ul></div></nav>
+		<section id="search">
+			<form id="searchform" method="get" action="http://robin.sh/">
+				<input id="searchtext" name="s" type="text" onblur="if(this.value =='')this.value='Search...';" onfocus="this.value='';" onclick="if(this.value=='Search...')this.value=''" value="Search..." />
+				<input id="searchsubmit" type="submit" value="" />
+			</form>
+		</section>
+	</div>
+</header>
+<div class="center clearfix">
+	<aside id="sidebar">	<section id="popularposts">
+		<h3>热门文章</h3>
+		<div class="widgetcon">
+			<div class="sidpopular">
+				<div class="popularthumb"><a href="http://robin.sh/html/603_apache-gzip.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='apache开启gzip的方法' width='44' height='44' /></a></div>
+				<div class="populartext">
+					<div class="populartitle"><a href="http://robin.sh/html/603_apache-gzip.html" title="apache开启gzip的方法">apache开启gzip的方法</a></div>
+					<div class="popularmeta">
+						<span><span id="wppvp_tv_603">9,124</span> 次浏览</span>
+						<span class="plr">&#47;</span>
+						<a href="http://robin.sh/html/603_apache-gzip.html#comments" class="ds-thread-count" data-thread-key="603" title="《apache开启gzip的方法》上的评论">8条评论</a>								</div>
+				</div>
+			</div>
+			<div class="sidpopular">
+				<div class="popularthumb"><a href="http://robin.sh/html/1526_eclipse-maven.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_bbs.robin.sh/attachments/1310200101e1fb2fd692159ba5.jpg' alt='eclipse安装maven插件-解决requires 'bundle org.slf4j.api 1.6.2'' width='44' height='44' /></a></div>
+				<div class="populartext">
+					<div class="populartitle"><a href="http://robin.sh/html/1526_eclipse-maven.html" title="eclipse安装maven插件-解决requires &#8216;bundle org.slf4j.api 1.6.2&#8242;">eclipse安装maven插件-解决requires &#8216;bundle org.slf4j.api 1.6.2&#8242;</a></div>
+					<div class="popularmeta">
+						<span><span id="wppvp_tv_1526">4,603</span> 次浏览</span>
+						<span class="plr">&#47;</span>
+						<a href="http://robin.sh/html/1526_eclipse-maven.html#comments" class="ds-thread-count" data-thread-key="1526" title="《eclipse安装maven插件-解决requires &#8216;bundle org.slf4j.api 1.6.2&#8242;》上的评论">7条评论</a>								</div>
+				</div>
+			</div>
+			<div class="sidpopular">
+				<div class="popularthumb"><a href="http://robin.sh/html/750_python-image-pil.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='使用python进行图像处理-调整图片大小' width='44' height='44' /></a></div>
+				<div class="populartext">
+					<div class="populartitle"><a href="http://robin.sh/html/750_python-image-pil.html" title="使用python进行图像处理-调整图片大小">使用python进行图像处理-调整图片大小</a></div>
+					<div class="popularmeta">
+						<span><span id="wppvp_tv_750">4,141</span> 次浏览</span>
+						<span class="plr">&#47;</span>
+						<a href="http://robin.sh/html/750_python-image-pil.html#comments" class="ds-thread-count" data-thread-key="750" title="《使用python进行图像处理-调整图片大小》上的评论">3条评论</a>								</div>
+				</div>
+			</div>
+			<div class="sidpopular">
+				<div class="popularthumb"><a href="http://robin.sh/html/494_html5-prefetch-prerender.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='利用HTML5实现页面预加载' width='44' height='44' /></a></div>
+				<div class="populartext">
+					<div class="populartitle"><a href="http://robin.sh/html/494_html5-prefetch-prerender.html" title="利用HTML5实现页面预加载">利用HTML5实现页面预加载</a></div>
+					<div class="popularmeta">
+						<span><span id="wppvp_tv_494">3,163</span> 次浏览</span>
+						<span class="plr">&#47;</span>
+						<a href="http://robin.sh/html/494_html5-prefetch-prerender.html#comments" class="ds-thread-count" data-thread-key="494" title="《利用HTML5实现页面预加载》上的评论">6条评论</a>								</div>
+				</div>
+			</div>
+			<div class="sidpopular">
+				<div class="popularthumb"><a href="http://robin.sh/html/100_apache-discuz-xp.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='Window下使用Apache搭建Discuz论坛' width='44' height='44' /></a></div>
+				<div class="populartext">
+					<div class="populartitle"><a href="http://robin.sh/html/100_apache-discuz-xp.html" title="Window下使用Apache搭建Discuz论坛">Window下使用Apache搭建Discuz论坛</a></div>
+					<div class="popularmeta">
+						<span><span id="wppvp_tv_100">2,905</span> 次浏览</span>
+						<span class="plr">&#47;</span>
+						<a href="http://robin.sh/html/100_apache-discuz-xp.html#comments" class="ds-thread-count" data-thread-key="100" title="《Window下使用Apache搭建Discuz论坛》上的评论"> 1条评论</a>								</div>
+				</div>
+			</div>
+		</div>
+		<div class="widgetbot"></div>
+	</section>
+		<section id="recentposts">
+			<h3>最近文章</h3>
+			<div class="widgetcon">
+
+
+				<div class="sidpopular">
+					<div class="popularthumb"><a href="http://robin.sh/html/2173_%e6%bf%80%e6%98%82%e5%8a%a8%e5%90%ac%e7%9a%84%e5%9c%a3%e7%a5%9e%e5%90%9f%e8%af%b5-exec_cosmoflips-kokia.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_bbs.robin.sh/attachments/1501082212078f7f77a6540afb.jpg' alt='激昂动听的圣神吟诵 EXEC_COSMOFLIPS KOKIA' width='44' height='44' /></a></div>
+					<div class="populartext">
+						<div class="populartitle"><a href="http://robin.sh/html/2173_%e6%bf%80%e6%98%82%e5%8a%a8%e5%90%ac%e7%9a%84%e5%9c%a3%e7%a5%9e%e5%90%9f%e8%af%b5-exec_cosmoflips-kokia.html" title="激昂动听的圣神吟诵 EXEC_COSMOFLIPS KOKIA">激昂动听的圣神吟诵 EXEC_COSMOFLIPS KOKIA</a></div>
+						<div class="popularmeta">
+							<span><span id="wppvp_tv_2173">37</span> 次浏览</span>
+							<span class="plr">&#47;</span>
+							<a href="http://robin.sh/html/2173_%e6%bf%80%e6%98%82%e5%8a%a8%e5%90%ac%e7%9a%84%e5%9c%a3%e7%a5%9e%e5%90%9f%e8%af%b5-exec_cosmoflips-kokia.html#respond" class="ds-thread-count" data-thread-key="2173" title="《激昂动听的圣神吟诵 EXEC_COSMOFLIPS KOKIA》上的评论">暂无评论</a>							</div>
+					</div>
+				</div>
+
+				<div class="sidpopular">
+					<div class="popularthumb"><a href="http://robin.sh/html/2170_about-friend-links.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_bbs.robin.sh/attachments/14122800207be45ea4e16d88a0.jpg' alt='友情链接还有友情吗' width='44' height='44' /></a></div>
+					<div class="populartext">
+						<div class="populartitle"><a href="http://robin.sh/html/2170_about-friend-links.html" title="友情链接还有友情吗">友情链接还有友情吗</a></div>
+						<div class="popularmeta">
+							<span><span id="wppvp_tv_2170">40</span> 次浏览</span>
+							<span class="plr">&#47;</span>
+							<a href="http://robin.sh/html/2170_about-friend-links.html#comments" class="ds-thread-count" data-thread-key="2170" title="《友情链接还有友情吗》上的评论">4条评论</a>							</div>
+					</div>
+				</div>
+
+				<div class="sidpopular">
+					<div class="popularthumb"><a href="http://robin.sh/html/2153_websphere-auto-deploy.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_bbs.robin.sh/attachments/1411201347b76a45e81c616fae.jpg' alt='WebSphere自动化发布脚本' width='44' height='44' /></a></div>
+					<div class="populartext">
+						<div class="populartitle"><a href="http://robin.sh/html/2153_websphere-auto-deploy.html" title="WebSphere自动化发布脚本">WebSphere自动化发布脚本</a></div>
+						<div class="popularmeta">
+							<span><span id="wppvp_tv_2153">69</span> 次浏览</span>
+							<span class="plr">&#47;</span>
+							<a href="http://robin.sh/html/2153_websphere-auto-deploy.html#respond" class="ds-thread-count" data-thread-key="2153" title="《WebSphere自动化发布脚本》上的评论">暂无评论</a>							</div>
+					</div>
+				</div>
+
+				<div class="sidpopular">
+					<div class="popularthumb"><a href="http://robin.sh/html/2127_large-scale_website_architecture.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_bbs.robin.sh/attachments/14100400422e6961b0fab2e97d.jpg' alt='从《大型网站技术架构》到架构之美' width='44' height='44' /></a></div>
+					<div class="populartext">
+						<div class="populartitle"><a href="http://robin.sh/html/2127_large-scale_website_architecture.html" title="从《大型网站技术架构》到架构之美">从《大型网站技术架构》到架构之美</a></div>
+						<div class="popularmeta">
+							<span><span id="wppvp_tv_2127">102</span> 次浏览</span>
+							<span class="plr">&#47;</span>
+							<a href="http://robin.sh/html/2127_large-scale_website_architecture.html#comments" class="ds-thread-count" data-thread-key="2127" title="《从《大型网站技术架构》到架构之美》上的评论">5条评论</a>							</div>
+					</div>
+				</div>
+
+				<div class="sidpopular">
+					<div class="popularthumb"><a href="http://robin.sh/html/1673_20140501-hz-2days.html"><span class="thumbmask"></span><img src='http://robin-sh.qiniudn.com/timthumb/44_44_100_robin.sh/wp-content/gallery/20140501_hz2/20140501_HZ_015.jpg' alt='五一杭州两日行' width='44' height='44' /></a></div>
+					<div class="populartext">
+						<div class="populartitle"><a href="http://robin.sh/html/1673_20140501-hz-2days.html" title="五一杭州两日行">五一杭州两日行</a></div>
+						<div class="popularmeta">
+							<span><span id="wppvp_tv_1673">251</span> 次浏览</span>
+							<span class="plr">&#47;</span>
+							<a href="http://robin.sh/html/1673_20140501-hz-2days.html#comments" class="ds-thread-count" data-thread-key="1673" title="《五一杭州两日行》上的评论">11条评论</a>							</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="widgetbot"></div>
+		</section>
+		<section id="tags">
+			<h3>友情链接</h3>
+			<div class="widgetcon clearfix">
+				<ul class="friendlinks tworow"><li><a href="http://www.yalanbooks.net/" title="" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />雅岚文藝博客</a></li><li><a href="http://www.weisay.com/" title="我愿像茶一样，把苦涩留在心里，敬发出来的都是清香！" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />威言威语</a></li><li><a href="http://www.gaoruijun.cn" title="Here records me everything" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />Ryan&#039; s blog</a></li><li><a href="http://forbetty.com" title="小说和人生，都是大梦一场" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />BETTY　DIARY</a></li><li><a href="http://www.itoldme.net/" title="" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />墙外的梯子</a></li><li><a href="http://maosay.com/" title="记录学习与生活的点滴" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />林三随笔</a></li><li><a href="http://www.zhezixi.com" title="梦呓之秋的个人博客" target="_blank" ><img width="16px" height="16px" src="http://cdn-robin-sh.qiniudn.com/wp-content/themes/Invoker/images/link-default.png" />折子戏</a></li></ul>
+			</div>
+			<div class="widgetbot"></div>
+		</section>
+		<div id="sidebar-fixed"></div></aside>	<content id="content">
+	<article id="post">
+		<div class="posttitle"><h2><a href="http://robin.sh/html/753_windows-apache-xcache.html" rel="bookmark">在windows+apache环境下安装XCache</a></h2></div>
+		<div class="postcon">
+			<p>XCache是一款提速php执行效率的工具，只要是通过对php编译空间开启一定的缓存来实现提速。</p>
+			<p><a href="http://robin.sh/html/585_windows-apache-php-mysql.html" title="wamp" target="_blank">windows+apache环境</a>下能实现此功能的工具不多，XCache是其中比较好的一款，推荐使用。</p>
+			<p>安装方法:<br />
+				1. 下载<a href="http://dl.dbank.com/c0kyv9bb2r" title="xcache" target="_blank">XCache-1.3.2-php-5.3.6-Win32-VC9-x86.zip</a><br />
+				2. 将压缩包内的php_xcache.dll放至wamp\bin\php\php5.3.8\ext目录下<br />
+				3. wamp\bin\apache\Apache2.2.21\bin\php.ini文件的末尾添加:<span id="more-753"></span></p><!-- Crayon Syntax Highlighter v2.4.1 -->
+
+			<div id="crayon-5513d08e4e904714668546" class="crayon-syntax crayon-theme-cg-cookie crayon-font-monaco crayon-os-pc print-yes" data-settings=" minimize scroll-mouseover" style=" margin-top: 12px; margin-bottom: 12px; float: none; clear: both; font-size: 12px !important; line-height: 15px !important;">
+
+				<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+					<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="切换显示行编号"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="纯文本显示代码"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="切换自动换行"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="在新窗口中显示代码"><div class="crayon-button-icon"></div></div></div></div>
+				<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+				<div class="crayon-plain-wrap"><textarea wrap="off" class="crayon-plain print-no" data-settings="dblclick" readonly style="-moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4; font-size: 12px !important; line-height: 15px !important;">
+[xcache-common]
+;; install as zend extension (recommended), normally "$extension_dir/xcache.so"
+;zend_extension = /usr/local/lib/php/extensions/non-debug-non-zts-xxx/xcache.so
+; zend_extension_ts = /usr/local/lib/php/extensions/non-debug-zts-xxx/xcache.so
+;; For windows users, replace xcache.so with php_xcache.dll
+;zend_extension_ts = c:/php/extensions/php_xcache.dll
+;; or install as extension, make sure your extension_dir setting is correct
+; extension = xcache.so
+;; or win32:
+extension = php_xcache.dll
+
+[xcache.admin]
+xcache.admin.enable_auth = Off
+xcache.admin.user = "mOo"
+; xcache.admin.pass = md5($your_password)
+xcache.admin.pass = ""
+
+[xcache]
+; ini only settings, all the values here is default unless explained
+
+; select low level shm/allocator scheme implemenation
+xcache.shm_scheme =        "mmap"
+; to disable: xcache.size=0
+; to enable : xcache.size=64M etc (any size &gt; 0) and your system mmap allows
+xcache.size  =               64M
+; set to cpu count (cat /proc/cpuinfo |grep -c processor)
+xcache.count =                 1
+; just a hash hints, you can always store count(items) &gt; slots
+xcache.slots =                8K
+; ttl of the cache item, 0=forever
+xcache.ttl   =                 0
+; interval of gc scanning expired items, 0=no scan, other values is in seconds
+xcache.gc_interval =           0
+
+; same as aboves but for variable cache
+xcache.var_size  =            4M
+xcache.var_count =             1
+xcache.var_slots =            8K
+; default ttl
+xcache.var_ttl   =             0
+xcache.var_maxttl   =          0
+xcache.var_gc_interval =     300
+
+xcache.test =                Off
+; N/A for /dev/zero
+xcache.readonly_protection = Off
+; for *nix, xcache.mmap_path is a file path, not directory.
+; Use something like "/tmp/xcache" if you want to turn on ReadonlyProtection
+; 2 group of php won't share the same /tmp/xcache
+; for win32, xcache.mmap_path=anonymous map name, not file path
+xcache.mmap_path =    "/dev/zero"
+
+
+; leave it blank(disabled) or "/tmp/phpcore/"
+; make sure it's writable by php (without checking open_basedir)
+xcache.coredump_directory =   ""
+
+; per request settings
+xcache.cacher =               On
+xcache.stat   =               On
+xcache.optimizer =           Off
+
+[xcache.coverager]
+; per request settings
+; enable coverage data collecting for xcache.coveragedump_directory and xcache_coverager_start/stop/get/clean() functions (will hurt executing performance)
+xcache.coverager =          Off
+
+; ini only settings
+; make sure it's readable (care open_basedir) by coverage viewer script
+; requires xcache.coverager=On
+xcache.coveragedump_directory = ""</textarea></div>
+				<div class="crayon-main" style="">
+					<table class="crayon-table">
+						<tr class="crayon-row">
+							<td class="crayon-nums " data-settings="show">
+								<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-2">2</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-4">4</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-6">6</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-8">8</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-10">10</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-12">12</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-14">14</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-16">16</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-18">18</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-20">20</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-22">22</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-24">24</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-26">26</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-28">28</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-29">29</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-30">30</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-31">31</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-32">32</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-33">33</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-34">34</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-35">35</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-36">36</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-37">37</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-38">38</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-39">39</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-40">40</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-41">41</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-42">42</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-43">43</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-44">44</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-45">45</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-46">46</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-47">47</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-48">48</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-49">49</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-50">50</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-51">51</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-52">52</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-53">53</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-54">54</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-55">55</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-56">56</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-57">57</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-58">58</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-59">59</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-60">60</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-61">61</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-62">62</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-63">63</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-64">64</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-65">65</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-66">66</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-67">67</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-68">68</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-69">69</div><div class="crayon-num crayon-striped-num" data-line="crayon-5513d08e4e904714668546-70">70</div><div class="crayon-num" data-line="crayon-5513d08e4e904714668546-71">71</div></div>
+							</td>
+							<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-line" id="crayon-5513d08e4e904714668546-1"><span class="crayon-sy">[</span><span class="crayon-i">xcache</span><span class="crayon-o">-</span><span class="crayon-i">common</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-2"><span class="crayon-sy">;</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">install </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-e">zend </span><span class="crayon-e">extension</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-i">recommended</span><span class="crayon-sy">)</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-i">normally</span><span class="crayon-h"> </span><span class="crayon-s">"$extension_dir/xcache.so"</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-3"><span class="crayon-sy">;</span><span class="crayon-v">zend_extension</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-i">usr</span><span class="crayon-o">/</span><span class="crayon-i">local</span><span class="crayon-o">/</span><span class="crayon-i">lib</span><span class="crayon-o">/</span><span class="crayon-i">php</span><span class="crayon-o">/</span><span class="crayon-i">extensions</span><span class="crayon-o">/</span><span class="crayon-i">non</span><span class="crayon-o">-</span><span class="crayon-i">debug</span><span class="crayon-o">-</span><span class="crayon-i">non</span><span class="crayon-o">-</span><span class="crayon-i">zts</span><span class="crayon-o">-</span><span class="crayon-i">xxx</span><span class="crayon-o">/</span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-i">so</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-4"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">zend_extension_ts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-i">usr</span><span class="crayon-o">/</span><span class="crayon-i">local</span><span class="crayon-o">/</span><span class="crayon-i">lib</span><span class="crayon-o">/</span><span class="crayon-i">php</span><span class="crayon-o">/</span><span class="crayon-i">extensions</span><span class="crayon-o">/</span><span class="crayon-i">non</span><span class="crayon-o">-</span><span class="crayon-i">debug</span><span class="crayon-o">-</span><span class="crayon-i">zts</span><span class="crayon-o">-</span><span class="crayon-i">xxx</span><span class="crayon-o">/</span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-i">so</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-5"><span class="crayon-sy">;</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">For</span><span class="crayon-h"> </span><span class="crayon-e">windows </span><span class="crayon-i">users</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">replace </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-e">so </span><span class="crayon-e">with </span><span class="crayon-v">php_xcache</span><span class="crayon-sy">.</span><span class="crayon-i">dll</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-6"><span class="crayon-sy">;</span><span class="crayon-v">zend_extension_ts</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">c</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-i">php</span><span class="crayon-o">/</span><span class="crayon-i">extensions</span><span class="crayon-o">/</span><span class="crayon-v">php_xcache</span><span class="crayon-sy">.</span><span class="crayon-i">dll</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-7"><span class="crayon-sy">;</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">or</span><span class="crayon-h"> </span><span class="crayon-e">install </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-i">extension</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">make </span><span class="crayon-e">sure </span><span class="crayon-e">your </span><span class="crayon-e">extension_dir </span><span class="crayon-e">setting </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-i">correct</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-8"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">extension</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-i">so</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-9"><span class="crayon-sy">;</span><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">or</span><span class="crayon-h"> </span><span class="crayon-i">win32</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-10"><span class="crayon-v">extension</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-v">php_xcache</span><span class="crayon-sy">.</span><span class="crayon-v">dll</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-11">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-12"><span class="crayon-sy">[</span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-i">admin</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-13"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">admin</span><span class="crayon-sy">.</span><span class="crayon-v">enable_auth</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">Off</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-14"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">admin</span><span class="crayon-sy">.</span><span class="crayon-v">user</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">"mOo"</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-15"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">admin</span><span class="crayon-sy">.</span><span class="crayon-v">pass</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-e">md5</span><span class="crayon-sy">(</span><span class="crayon-sy">$</span><span class="crayon-i">your_password</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-16"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">admin</span><span class="crayon-sy">.</span><span class="crayon-v">pass</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">""</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-17">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-18"><span class="crayon-sy">[</span><span class="crayon-i">xcache</span><span class="crayon-sy">]</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-19"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">ini </span><span class="crayon-e">only </span><span class="crayon-i">settings</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">all </span><span class="crayon-e">the </span><span class="crayon-e">values </span><span class="crayon-e">here </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-st">default</span><span class="crayon-h"> </span><span class="crayon-e">unless </span><span class="crayon-i">explained</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-20">&nbsp;</div><div class="crayon-line" id="crayon-5513d08e4e904714668546-21"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">select </span><span class="crayon-e">low </span><span class="crayon-e">level </span><span class="crayon-i">shm</span><span class="crayon-o">/</span><span class="crayon-e">allocator </span><span class="crayon-e">scheme </span><span class="crayon-e">implemenation</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-22"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">shm_scheme</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-s">"mmap"</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-23"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">to</span><span class="crayon-h"> </span><span class="crayon-i">disable</span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">size</span><span class="crayon-o">=</span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-24"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">to</span><span class="crayon-h"> </span><span class="crayon-i">enable</span><span class="crayon-h"> </span><span class="crayon-o">:</span><span class="crayon-h"> </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">size</span><span class="crayon-o">=</span><span class="crayon-cn">64M</span><span class="crayon-h"> </span><span class="crayon-e">etc</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e">any </span><span class="crayon-i">size</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-st">and</span><span class="crayon-h"> </span><span class="crayon-e">your </span><span class="crayon-e">system </span><span class="crayon-e">mmap </span><span class="crayon-e">allows</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-25"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">size</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">64M</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-26"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">set </span><span class="crayon-st">to</span><span class="crayon-h"> </span><span class="crayon-e">cpu </span><span class="crayon-e">count</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-i">cat</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-i">proc</span><span class="crayon-o">/</span><span class="crayon-i">cpuinfo</span><span class="crayon-h"> </span><span class="crayon-o">|</span><span class="crayon-i">grep</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">c</span><span class="crayon-h"> </span><span class="crayon-i">processor</span><span class="crayon-sy">)</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-27"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">count</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-28"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-i">just</span><span class="crayon-h"> </span><span class="crayon-i">a</span><span class="crayon-h"> </span><span class="crayon-e">hash </span><span class="crayon-i">hints</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">you </span><span class="crayon-e">can </span><span class="crayon-e">always </span><span class="crayon-e">store </span><span class="crayon-e">count</span><span class="crayon-sy">(</span><span class="crayon-i">items</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-o">&gt;</span><span class="crayon-h"> </span><span class="crayon-e">slots</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-29"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">slots</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">8K</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-30"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">ttl </span><span class="crayon-e">of </span><span class="crayon-e">the </span><span class="crayon-e">cache </span><span class="crayon-i">item</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-o">=</span><span class="crayon-e">forever</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-31"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">ttl</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-32"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">interval </span><span class="crayon-e">of </span><span class="crayon-e">gc </span><span class="crayon-e">scanning </span><span class="crayon-e">expired </span><span class="crayon-i">items</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-cn">0</span><span class="crayon-o">=</span><span class="crayon-e">no </span><span class="crayon-i">scan</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-e">other </span><span class="crayon-e">values </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-st">in</span><span class="crayon-h"> </span><span class="crayon-e">seconds</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-33"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">gc_interval</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-34">&nbsp;</div><div class="crayon-line" id="crayon-5513d08e4e904714668546-35"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">same </span><span class="crayon-st">as</span><span class="crayon-h"> </span><span class="crayon-e">aboves </span><span class="crayon-e">but </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-e">variable </span><span class="crayon-e">cache</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-36"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">var_size</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">4M</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-37"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">var_count</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">1</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-38"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">var_slots</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">8K</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-39"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">default</span><span class="crayon-h"> </span><span class="crayon-e">ttl</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-40"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">var_ttl</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">0</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-41"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">var_maxttl</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">0</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-42"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">var_gc_interval</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-cn">300</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-43">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-44"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">test</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-i">Off</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-45"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-i">N</span><span class="crayon-o">/</span><span class="crayon-i">A</span><span class="crayon-h"> </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-i">dev</span><span class="crayon-o">/</span><span class="crayon-e">zero</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-46"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">readonly_protection</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-i">Off</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-47"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-i">nix</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-e">mmap_path </span><span class="crayon-st">is</span><span class="crayon-h"> </span><span class="crayon-i">a</span><span class="crayon-h"> </span><span class="crayon-e">file </span><span class="crayon-i">path</span><span class="crayon-sy">,</span><span class="crayon-h"> </span><span class="crayon-st">not</span><span class="crayon-h"> </span><span class="crayon-v">directory</span><span class="crayon-sy">.</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-48"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-st">Use</span><span class="crayon-h"> </span><span class="crayon-e">something </span><span class="crayon-i">like</span><span class="crayon-h"> </span><span class="crayon-s">"/tmp/xcache"</span><span class="crayon-h"> </span><span class="crayon-st">if</span><span class="crayon-h"> </span><span class="crayon-e">you </span><span class="crayon-e">want </span><span class="crayon-st">to</span><span class="crayon-h"> </span><span class="crayon-e">turn </span><span class="crayon-e">on </span><span class="crayon-i">ReadonlyProtection</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-49"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">group </span><span class="crayon-e">of </span><span class="crayon-e">php </span><span class="crayon-i">won</span><span class="crayon-s">'t share the same /tmp/xcache</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-50"><span class="crayon-s">; for win32, xcache.mmap_path=anonymous map name, not file path</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-51"><span class="crayon-s">xcache.mmap_path =&nbsp;&nbsp;&nbsp;&nbsp;"/dev/zero"</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-52">&nbsp;</div><div class="crayon-line" id="crayon-5513d08e4e904714668546-53">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-54"><span class="crayon-s">; leave it blank(disabled) or "/tmp/phpcore/"</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-55"><span class="crayon-s">; make sure it'</span><span class="crayon-i">s</span><span class="crayon-h"> </span><span class="crayon-e">writable </span><span class="crayon-e">by </span><span class="crayon-e">php</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e">without </span><span class="crayon-e">checking </span><span class="crayon-i">open_basedir</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-56"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">coredump_directory</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-s">""</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-57">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-58"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">per </span><span class="crayon-e">request </span><span class="crayon-e">settings</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-59"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">cacher</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">On</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-60"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">stat</span><span class="crayon-h">&nbsp;&nbsp; </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-e">On</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-61"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">optimizer</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="crayon-v">Off</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-62">&nbsp;</div><div class="crayon-line" id="crayon-5513d08e4e904714668546-63"><span class="crayon-sy">[</span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-i">coverager</span><span class="crayon-sy">]</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-64"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">per </span><span class="crayon-e">request </span><span class="crayon-i">settings</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-65"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">enable </span><span class="crayon-e">coverage </span><span class="crayon-e">data </span><span class="crayon-e">collecting </span><span class="crayon-st">for</span><span class="crayon-h"> </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-e">coveragedump_directory </span><span class="crayon-st">and</span><span class="crayon-h"> </span><span class="crayon-i">xcache_coverager_start</span><span class="crayon-o">/</span><span class="crayon-i">stop</span><span class="crayon-o">/</span><span class="crayon-i">get</span><span class="crayon-o">/</span><span class="crayon-e">clean</span><span class="crayon-sy">(</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-e">functions</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e">will </span><span class="crayon-e">hurt </span><span class="crayon-e">executing </span><span class="crayon-i">performance</span><span class="crayon-sy">)</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-66"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">coverager</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-i">Off</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-67">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-68"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">ini </span><span class="crayon-e">only </span><span class="crayon-i">settings</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-69"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">make </span><span class="crayon-e">sure </span><span class="crayon-i">it</span>'<span class="crayon-i">s</span><span class="crayon-h"> </span><span class="crayon-e">readable</span><span class="crayon-h"> </span><span class="crayon-sy">(</span><span class="crayon-e">care </span><span class="crayon-i">open_basedir</span><span class="crayon-sy">)</span><span class="crayon-h"> </span><span class="crayon-e">by </span><span class="crayon-e">coverage </span><span class="crayon-e">viewer </span><span class="crayon-i">script</span></div><div class="crayon-line crayon-striped-line" id="crayon-5513d08e4e904714668546-70"><span class="crayon-sy">;</span><span class="crayon-h"> </span><span class="crayon-e">requires </span><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">coverager</span><span class="crayon-o">=</span><span class="crayon-e">On</span></div><div class="crayon-line" id="crayon-5513d08e4e904714668546-71"><span class="crayon-v">xcache</span><span class="crayon-sy">.</span><span class="crayon-v">coveragedump_directory</span><span class="crayon-h"> </span><span class="crayon-o">=</span><span class="crayon-h"> </span><span class="crayon-s">""</span></div></div></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<!-- [Format Time: 0.0305 seconds] -->
+			<p></p>
+			<p>4. 重启wamp服务，在phpinfo也中可见xcache配置信息即安装成功</p>
+			<div style="clear:both; margin-top:5px; margin-bottom:5px;"></div><div style="float:left"><!-- JiaThis Button BEGIN -->
+			<div class="jiathis_style">
+				<a class="jiathis_button_qzone"></a>
+				<a class="jiathis_button_weixin"></a>
+				<a href="http://www.jiathis.com/share?uid=1547548" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">更多</a>
+			</div>
+			<script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js?uid=1547548" charset="utf-8"></script>
+			<!-- JiaThis Button END --></div><div style="clear:both; margin-top:5px; margin-bottom:5px;"></div>
+			&nbsp;				</div>
+		<div class="postmeta clearfix">
+			<div class="posttags">标签：<a href="http://robin.sh/html/tag/apache" rel="tag">apache</a>、<a href="http://robin.sh/html/tag/php" rel="tag">php</a>、<a href="http://robin.sh/html/tag/windows" rel="tag">windows</a>、<a href="http://robin.sh/html/tag/xcache" rel="tag">xcache</a>、<a href="http://robin.sh/html/tag/%e4%bc%98%e5%8c%96" rel="tag">优化</a> </div>
+			<div id="share">
+				<a href="javascript:void(0)" id="share-icon">分享到：</a>
+				<ul id="shareul">
+					<li id="sinaweibo"><a href="http://v.t.sina.com.cn/share/share.php?url=http://robin.sh/html/753_windows-apache-xcache.html&title=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到新浪微博">新浪微博</a></li>
+					<li id="tengxunweibo"><a href="http://v.t.qq.com/share/share.php?title=在windows+apache环境下安装XCache&url=http://robin.sh/html/753_windows-apache-xcache.html&site=http://robin.sh" target="_blank" rel="nofollow" title="分享到腾讯微博">腾讯微博</a></li>
+					<li id="greader"><a href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://robin.sh/html/753_windows-apache-xcache.html&title=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到QQ空间">QQ空间</a></li>
+					<li id="wangyi"><a href="http://t.163.com/article/user/checkLogin.do?link=http://robin.sh/html/753_windows-apache-xcache.htmlsource=http://robin.sh&info=在windows+apache环境下安装XCachehttp://robin.sh/html/753_windows-apache-xcache.html" target="_blank" rel="nofollow">网易微博</a></li>
+					<li id="sohu"><a href="http://t.sohu.com/third/post.jsp?&url=http://robin.sh/html/753_windows-apache-xcache.html&title=在windows+apache环境下安装XCache&content=utf-8" target="_blank" rel="nofollow">搜狐微博</a></li>
+					<li id="renren"><a href="http://share.renren.com/share/buttonshare?link=http://robin.sh/html/753_windows-apache-xcache.html&title=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到人人网">人人网</a></li>
+					<li id="kaixin"><a href="http://www.kaixin001.com/repaste/share.php?rurl=http://robin.sh/html/753_windows-apache-xcache.html&rcontent=http://robin.sh/html/753_windows-apache-xcache.html&rtitle=在windows+apache环境下安装XCache" target="_blank" rel="nofollow">开心网</a></li>
+					<li id="douban"><a href="http://www.douban.com/recommend/?url=http://robin.sh/html/753_windows-apache-xcache.html&title=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到豆瓣">豆瓣网</a></li>
+					<li id="fanfou"><a href="http://fanfou.com/sharer?u=http://robin.sh/html/753_windows-apache-xcache.html&t=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到饭否">饭否</a></li>
+
+					<li id="twitter"><a href="http://twitter.com/share?url=http://robin.sh/html/753_windows-apache-xcache.html&text=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到Twitter">Twitter</a></li>
+					<li id="digg"><a href="http://digg.com/submit?url=http://robin.sh/html/753_windows-apache-xcache.html&title=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="添加到digg">Digg</a></li>
+					<li id="facebook"><a href="http://facebook.com/share.php?u=http://robin.sh/html/753_windows-apache-xcache.html&t=在windows+apache环境下安装XCache" target="_blank" rel="nofollow" title="分享到Facebook">Facebook</a></li>
+				</ul>
+			</div>
+		</div>
+	</article>
+	<section id="post-footer">
+		<nav id="near-posts" class="clearfix">
+			<div class="post-prev left"><a href="http://robin.sh/html/756_windows-apache-ioncube.html" rel="next">在windows+apache环境下安装ioncube</a></div>
+			<div class="post-next right"><a href="http://robin.sh/html/750_python-image-pil.html" rel="prev">使用python进行图像处理-调整图片大小</a></div>
+		</nav>
+	</section>
+	<section id="related-posts"><ul class="clearfix">			<li class="left related-post">
+		<a href="http://robin.sh/html/946_iis-zend_guard_loader.html " class="related-post-image" rel="nofollow"><img src='http://robin-sh.qiniudn.com/timthumb/130_90_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='IIS中使用Zend Guard Loader对PHP加速' width='130' height='90' /></a>
+		<a class="related-post-tittle" href="http://robin.sh/html/946_iis-zend_guard_loader.html" >IIS中使用Zend Guard Loader对PHP加速</a>
+	</li>
+		<li class="left related-post">
+			<a href="http://robin.sh/html/853_vps-linux-apache-tomcat.html " class="related-post-image" rel="nofollow"><img src='http://robin-sh.qiniudn.com/timthumb/130_90_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='VPS - Linux - Apache整合Tomcat' width='130' height='90' /></a>
+			<a class="related-post-tittle" href="http://robin.sh/html/853_vps-linux-apache-tomcat.html" >VPS &#8211; Linux &#8211; Apache整合Tomcat</a>
+		</li>
+		<li class="left related-post">
+			<a href="http://robin.sh/html/842_vps-linux-apache.html " class="related-post-image" rel="nofollow"><img src='http://robin-sh.qiniudn.com/timthumb/130_90_100_bbs.robin.sh/attachments/14021613006f2430777cc56f1b.png' alt='VPS - Linux - 安装Apache' width='130' height='90' /></a>
+			<a class="related-post-tittle" href="http://robin.sh/html/842_vps-linux-apache.html" >VPS &#8211; Linux &#8211; 安装Apache</a>
+		</li>
+		<li class="left related-post related-post-last">
+			<a href="http://robin.sh/html/811_windows-maven.html " class="related-post-image" rel="nofollow"><img src='http://robin-sh.qiniudn.com/timthumb/130_90_100_robin.sh/wp-content/themes/Invoker/images/default.png' alt='windows下安装maven' width='130' height='90' /></a>
+			<a class="related-post-tittle" href="http://robin.sh/html/811_windows-maven.html" >windows下安装maven</a>
+		</li>
+	</ul></section>		<script type="text/javascript">
+	var duoshuoQuery = {"short_name":"robin-sh","sso":{"login":"http:\/\/robin.sh\/wp-login.php?action=duoshuo_login","logout":"http:\/\/robin.sh\/wp-login.php?action=logout&_wpnonce=f217c298ba"},"theme":"default","stylePatch":"wordpress\/Invoker"};
+	duoshuoQuery.sso.login += '&redirect_to=' + encodeURIComponent(window.location.href);
+	duoshuoQuery.sso.logout += '&redirect_to=' + encodeURIComponent(window.location.href);
+	(function() {
+		var ds = document.createElement('script'); ds.type = 'text/javascript'; ds.async = true;
+		ds.charset = 'UTF-8';
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script><a name="comments"></a>
+
+	<div class="ds-thread" data-thread-key="753" data-author-key="1" data-title="在windows+apache环境下安装XCache" data-url="http://robin.sh/html/753_windows-apache-xcache.html"></div>
+
+	<script type="text/javascript">
+		if (typeof DUOSHUO !== 'undefined')
+			DUOSHUO.EmbedThread('.ds-thread');
+	</script>
+	<div id="ds-ssr">
+
+
+		<ol id="commentlist">
+			<li class="post pingback">
+				<p>Pingback: <a href='http://layerblog.sturgeon.mopaas.com/phpstudy%e4%b8%8b%e5%ae%89%e8%a3%85ioncube%e7%bb%84%e4%bb%b6/' rel='external nofollow' class='url' target='_blank'>phpstudy下安装ioncube组件 &#8211; API WIKI</a></p>
+			</li><!-- #comment-## -->
+			<li class="post pingback">
+				<p>Pingback: <a href='http://robin.sh/html/756_windows-apache-ioncube.html' rel='external nofollow' class='url' target='_blank'>在windows+apache环境下安装ioncube | Robin</a></p>
+			</li><!-- #comment-## -->
+		</ol>
+
+
+	</div>	</content>
+</div>
+<footer id="footer">
+	<div class="footershadow"></div>
+	<!-- Robin -->
+	<!--<div id="footerwidget">-->
+	<!--<div class="center2"><p>请到后台设置小工具!</p></div>-->
+	<!--</div>-->
+	<div class="clear"></div>
+	<div id="copyright">
+		<div class="center">
+			<div class="allright">&copy; 2009&nbsp;-&nbsp;2014&nbsp;&nbsp;<a href="/">Robin.</a>&nbsp;&nbsp;<a href="http://robin.sh/sitemap.html" target="_blank">网站地图</a></div>
+			<!--<div class="themeright">theme <a href="http://oneiro.me/" target="_blank">design by mugee</a>&nbsp;&nbsp;<a href="http://mufeng.me/" target="_blank"> code by mufeng.</a>&nbsp;&nbsp;</div>-->
+			<div class="sns">
+				<a href="http://robin.sh/feed" target="_blank" rel="nofollow" class="rss"></a>			</div>
+		</div>
+	</div>
+	<div id="statistics"><script type="text/javascript">
+		var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+		document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F991e87285f2dcd479f6da5166267e8d5' type='text/javascript'%3E%3C/script%3E"));
+	</script></div>	<div id="gotop"></div>
+</footer>
+<!-- ngg_resource_manager_marker --><script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/wpaudio-mp3-player/wpaudio.min.js?ver=3.1'></script>
+<script type='text/javascript'>
+	/* <![CDATA[ */
+	var tocplus = {"visibility_show":"\u663e\u793a","visibility_hide":"\u9690\u85cf","width":"200px"};
+	/* ]]> */
+</script>
+<script type='text/javascript' src='http://cdn-robin-sh.qiniudn.com/wp-content/plugins/table-of-contents-plus/front.js?ver=1303.1'></script>
+<!-- Robin ++ { -->
+<script src="http://cdn-robin-sh.qiniudn.com/tools/lightbox2/lightbox/js/lightbox-2.6.min.js"></script>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=38707085" charset="UTF-8"></script>
+<!-- Robin ++ } -->
+</body>
+</html>
+<!-- Dynamic page generated in 0.788 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-03-26 17:25:34 -->
+
+<!-- super cache -->
