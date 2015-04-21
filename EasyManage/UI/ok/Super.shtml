@@ -24,7 +24,7 @@
     
    
 	<script src="/assets/js/artDialog4.1.7/artDialog.js?skin=default"></script>
-	<script src="/assets/js/CK.js"></script>
+	<script src="/assets/js/CK2.js"></script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -131,7 +131,7 @@
 
 
 <a href="javascript:;" class="btn btn-primary btn-single btn-sm dialog222" rel="dialog/p1.shtml">Show1</a>
-<a href="javascript:;" class="btn btn-primary btn-single btn-sm dialog222" rel="dialog/p2.shtml">222</a>
+<a href="javascript:;" class="btn btn-primary btn-single btn-sm dialog222" rel="dialog/test.shtml">222</a>
 <script language="javascript">
 
 $(".dialog222").click(function(){
@@ -173,23 +173,13 @@ $(".dialog222").click(function(){
 	<script src="/assets/js/xenon-toggles.js"></script>
 	<script src="/assets/js/datatables/js/jquery.dataTables.min.js"></script>
 
-
 	<!-- Imported scripts on this page -->
 	<script src="/assets/js/datatables/dataTables.bootstrap.js"></script>
 	<script src="/assets/js/datatables/yadcf/jquery.dataTables.yadcf.js"></script>
 	<script src="/assets/js/datatables/tabletools/dataTables.tableTools.min.js"></script>
 
-
 	<!-- JavaScripts initializations and stuff -->
 	<script src="/assets/js/xenon-custom.js"></script>
-
-
-
-
-
-
-
-
 
 </body>
 </html>

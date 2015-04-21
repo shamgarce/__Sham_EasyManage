@@ -50,13 +50,12 @@
     <button type="button" class="btn btn-info">Save changes</button>
 </div>
 
-<a href="javascript:;" class="btn btn-primary btn-single btn-sm dialog_gs" rel="dialog/p2.shtml">Show2</a>
+<a href="javascript:;" class="btn btn-primary btn-single btn-sm dialog_refresh" rel="dialog/p2.shtml">刷新</a>
+<a href="javascript:;" class="btn btn-primary btn-single btn-sm dialog_close" rel="dialog/p2.shtml">关闭</a>
+
 
 <script type="text/dialog">
-	$(".dialog_gs").click(function(){
-		
-$.CKend(bootstrap_dialog);
 
-		
-	});
 </script>
+
+

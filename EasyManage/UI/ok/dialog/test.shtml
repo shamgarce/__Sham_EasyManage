@@ -1,0 +1,31 @@
+ceshi 
+
+<button class='btn btaa'>按钮</button>
+
+
+<script type="text/dialog">
+
+
+
+this.opt = {				//确定按钮的点击
+	ok:function(){
+		var res = {
+				code: -100,
+				msg : 'hello'
+			}
+		return res;
+	},
+	cancel:function(){},						//点击cancel按钮
+	close:function(){},							//关闭对话框 不是回调
+}
+
+
+
+$(".btaa").click(function(){
+	
+	$.CK.dorefresh(_option);
+	
+});
+
+
+</script>
